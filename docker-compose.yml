@@ -1,0 +1,86 @@
+services:
+  auth-service:
+    build: ./auth-service
+
+    container_name: auth-service
+    ports: 
+      - "3003:3003"
+    env_file: .env
+    depends_on:
+      - user-db
+
+  user-service:
+    build: ./user-service
+    
+    container_name: user-service
+    ports:
+      - "3005:3005"
+    env_file: .env
+    depends_on:
+      - user-db
+
+  dokter-service:
+    build: ./dokter-service
+    container_name: dokter-service
+    ports:
+      - "3001:3001"
+    env_file: .env
+    depends_on:
+      - doctor-db
+
+  booking-service:
+    build: ./booking-service
+    container_name: booking-service
+    ports:
+      - "3002:3002"
+    env_file: .env
+    depends_on:
+      - booking-db
+
+  notification-service:
+    build: ./notification-service
+    restart: always
+    ports:
+      - "3004:3004"
+    env_file:
+      - ./notification-service/.env
+
+  user-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: ${USER_DB_USER}
+      POSTGRES_PASSWORD: ${USER_DB_PASSWORD}
+      POSTGRES_DB: ${USER_DB_NAME}
+    ports:
+      - "5435:5432"
+    volumes:
+      - user_db:/var/lib/postgresql/data
+
+  booking-db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: ${BOOKING_DB_USER}
+      POSTGRES_PASSWORD: ${BOOKING_DB_PASSWORD}
+      POSTGRES_DB: ${BOOKING_DB_NAME}
+    ports:
+      - "5434:5432"
+    volumes:
+      - clinic_booking:/var/lib/postgresql/data
+
+  doctor-db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_DATABASE: clinic
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - clinic:/var/lib/mysql
+
+volumes:
+  user_db:
+  clinic_booking:
+  clinic:

@@ -1,0 +1,14 @@
+*.env
+
+node_modules/
+
+*.log
+logs/
+npm-debug.log*
+
+docker-data/
+
+dist/
+build/
+
+front-end/
