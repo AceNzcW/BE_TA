@@ -20,8 +20,9 @@ exports.createBooking = async(req, res) => {
         }
         const doctor = doctorResponse.data;
 
-        const last = await queue.getLastNumber();
-        const nextNumber = last.rows[0].last_number + 1;
+        const today = new Date().toISOString().split('T')[0];
+        const queueResult = await queue.getGlobalNextNumber(today);
+        const nextNumber = queueResult.rows[0].last_number;
 
         await queue.updateNumber(nextNumber);
     

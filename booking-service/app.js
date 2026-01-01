@@ -9,7 +9,7 @@ const pool = require('./db');
 console.log("DOCTOR_SERVICE_URL:", process.env.DOCTOR_SERVICE_URL);
 
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://fe-ta.vercel.app/'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));

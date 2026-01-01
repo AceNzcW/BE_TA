@@ -1,17 +1,10 @@
-const db = require("../db");
-
-exports.getLastNumber = () => {
-    return db.query("SELECT last_number FROM queue_counter WHERE id=1");
-};
-
-exports.updateNumber =  (number) => {
+exports.getGlobalNextNumber = (date) => {
     return db.query(
-        "UPDATE queue_counter SET last_number = $1, update_at = NOW() WHERE id = 1", [number]
+        `INSERT INTO queue_counter (doctor_id, booking_date, last_number)
+         VALUES ($1, $2, 1) 
+         ON CONFLICT (doctor_id, booking_date) 
+         DO UPDATE SET last_number = queue_counter.last_number + 1
+         RETURNING last_number`,
+        [0, date] // $1 diisi 0, $2 diisi date. Sekarang pas (2 parameter).
     );
 };
-
-exports.resetNumber = () => {
-    return db.query(
-        "UPDATE queue_counter SET last_number = 0, update_at = NOW() WHERE id = 1"
-    );
-}; 

@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.use(cors({
   origin: [
+  "https://fe-ta.vercel.app/",
   "http://localhost:3000",
   "http://192.168.100.224:3000"],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
