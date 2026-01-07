@@ -5,7 +5,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY . .
 RUN npm install
+RUN npm install -g knex
 
-EXPOSE 3001
+EXPOSE 3002
 
-CMD ["node", "app.js"]
+CMD ["sh", "-c", "npx knex migrate:latest && node app.js"]

@@ -1,3 +1,5 @@
+const db = require('../db');
+
 exports.getGlobalNextNumber = (date) => {
     return db.query(
         `INSERT INTO queue_counter (doctor_id, booking_date, last_number)

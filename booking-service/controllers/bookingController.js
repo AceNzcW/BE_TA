@@ -24,7 +24,6 @@ exports.createBooking = async(req, res) => {
         const queueResult = await queue.getGlobalNextNumber(today);
         const nextNumber = queueResult.rows[0].last_number;
 
-        await queue.updateNumber(nextNumber);
     
         const result = await booking.create(patient_name, patient_contact, doctor_id, appointment_date, nextNumber);
         const newBooking = result.rows[0];
