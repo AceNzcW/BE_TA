@@ -2,7 +2,7 @@ name: CI/CD Microservice
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build-and-push:
