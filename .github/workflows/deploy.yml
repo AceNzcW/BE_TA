@@ -27,18 +27,18 @@ jobs:
             docker push ${{ secrets.DOCKER_USERNAME }}/$service:latest
           done
 
-deploy:
-    needs: build-and-push
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to AWS EC2
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST_IP }}
-          username: ubuntu
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ~/backend  
-            docker-compose pull
-            docker-compose up -d --build
-            docker image prune -f 
+  deploy:
+      needs: build-and-push
+      runs-on: ubuntu-latest
+      steps:
+        - name: Deploy to AWS EC2
+          uses: appleboy/ssh-action@master
+          with:
+            host: ${{ secrets.HOST_IP }}
+            username: ubuntu
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            script: |
+              cd ~/backend  
+              docker-compose pull
+              docker-compose up -d --build
+              docker image prune -f 
